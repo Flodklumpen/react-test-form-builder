@@ -7,10 +7,12 @@ import RadioButtonsQuestionBlock from "./components/RadioButtonsQuestionBlock";
 import TextBlock from "./components/TextBlock";
 import styles from "./FormBuilder.module.css";
 import { FormItemBlockProps } from "./types";
+import InputBlock from "./components/InputBlock";
 
 export type InputType =
   | "image"
   | "text"
+  | "input"
   | "radio-buttons"
   | "checkboxes"
   | "dropdown";
@@ -43,7 +45,9 @@ const FormBuilder = ({
 }: {
   onSubmit: (form: FormattedField[]) => void;
 }) => {
-  const { register, control, setValue, unregister } = useForm<FormValues>();
+  const { register, control, setValue, unregister, handleSubmit, formState: { errors } } = useForm<FormValues>({
+    mode: "onBlur",
+  });
   const { fields, append, remove, update, replace } = useFieldArray({
     name: "fields",
     control,
@@ -59,6 +63,11 @@ const FormBuilder = ({
       name: "Text",
       type: "text",
       component: TextBlock,
+    },
+    {
+      name: "Input",
+      type: "input",
+      component: InputBlock,
     },
     {
       name: "Radio buttons",
@@ -83,8 +92,8 @@ const FormBuilder = ({
     });
   };
 
-  const saveForm = (fields: FormItem[]) => {
-    const formattedForm: FormattedField[] = fields.map((block) => ({
+  const saveForm = (data: FormValues) => {
+    const formattedForm: FormattedField[] = data.fields.map((block) => ({
       type: block.type,
       id: block.props.id,
       values: block.values,
@@ -116,6 +125,7 @@ const FormBuilder = ({
                   onToggleExpanded={() => handleToggleExpanded(i, field)}
                   register={register}
                   unregister={unregister}
+                  errors={errors}
                   setValue={setValue}
                   index={i}
                   onMove={(dir) => {
@@ -128,7 +138,7 @@ const FormBuilder = ({
               );
             })}
           </ul>
-          <Button onClick={() => saveForm(fields)} disabled={!fields.length}>
+          <Button onClick={() => handleSubmit(saveForm)()} disabled={!fields.length}>
             Spara formulär
           </Button>
         </>

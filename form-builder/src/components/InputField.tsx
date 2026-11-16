@@ -29,7 +29,10 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
             {...attributes}
           />
         </div>
-        {error && <div>{error.message}</div>}
+        {error &&
+            <div className={styles.error} role="alert">
+              {error.message}
+            </div>}
       </div>
     );
   }
