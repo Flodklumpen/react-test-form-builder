@@ -21,7 +21,6 @@ const FormItem = ({
   onToggleExpanded,
   onMove,
 }: FormItemProps) => {
-  const Block = field;
 
   return (
     <li className={styles.wrapper}>
@@ -52,7 +51,7 @@ const FormItem = ({
       {expanded && (
         <div className={styles.content}>
           <div>{description}</div>
-          <Block />
+          {field()}
         </div>
       )}
     </li>

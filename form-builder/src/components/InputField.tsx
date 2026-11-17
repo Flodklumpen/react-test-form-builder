@@ -18,7 +18,7 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
     if (labelledBy) attributes["aria-labelledby"] = labelledBy;
     return (
       <div className={[styles.container, className].join(" ")}>
-        {label && <label htmlFor={name}>{label}</label>}
+        {label && <label htmlFor={name}>{label} {rest.required && "*"}</label>}
         <div className={styles.inputWrapper}>
           <input
             ref={ref}

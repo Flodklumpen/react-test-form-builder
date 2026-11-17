@@ -5,6 +5,7 @@ import CheckboxesQuestionBlock from "./components/CheckboxesQuestionBlock";
 import ImageBlock from "./components/ImageBlock";
 import RadioButtonsQuestionBlock from "./components/RadioButtonsQuestionBlock";
 import TextBlock from "./components/TextBlock";
+import sharedStyles from "../FormShared.module.css";
 import styles from "./FormBuilder.module.css";
 import { FormItemBlockProps } from "./types";
 import InputBlock from "./components/InputBlock";
@@ -45,9 +46,7 @@ const FormBuilder = ({
 }: {
   onSubmit: (form: FormattedField[]) => void;
 }) => {
-  const { register, control, setValue, unregister, handleSubmit, formState: { errors } } = useForm<FormValues>({
-    mode: "onBlur",
-  });
+  const { register, control, setValue, unregister, handleSubmit, formState: { errors } } = useForm<FormValues>();
   const { fields, append, remove, update, replace } = useFieldArray({
     name: "fields",
     control,
@@ -93,16 +92,17 @@ const FormBuilder = ({
   };
 
   const saveForm = (data: FormValues) => {
-    const formattedForm: FormattedField[] = data.fields.map((block) => ({
-      type: block.type,
-      id: block.props.id,
-      values: block.values,
-    }));
+    const formattedForm: FormattedField[] = data.fields
+      .map((block) => ({
+        type: block.type,
+        id: block.props.id,
+        values: block.values,
+      }));
     onSubmit(formattedForm);
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={sharedStyles.wrapper}>
       <h2>Välj element</h2>
       <div className={styles.buttonWrapper}>
         {elements.map((item) => (
@@ -114,7 +114,7 @@ const FormBuilder = ({
       {!fields.length && <div>Lägg till nya fält med hjälp av knapparna.</div>}
       {!!fields.length && (
         <>
-          <ul className={styles.formItems}>
+          <ul className={sharedStyles.formItems}>
             {fields.map((field, i) => {
               const Component = field.component;
               return (

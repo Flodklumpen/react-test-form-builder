@@ -6,10 +6,12 @@ import { InputField } from "../../InputField";
 import { FormItemBlockProps } from "../types";
 import FormItem from "./FormItem";
 import { MultiValue, MultiValues, MultiValueWrapper } from "./MultiValueLayout";
+import {FieldError} from "react-hook-form";
 
 const CheckboxesQuestionBlock = ({
   register,
   unregister,
+  errors,
   id,
   index,
   setValue,
@@ -26,7 +28,12 @@ const CheckboxesQuestionBlock = ({
           <InputField
             label="Titel"
             placeholder="Titel"
-            {...register(`fields.${index}.values.question`)}
+            required
+            error={errors?.fields?.[index]?.values?.question}
+            {...register(`fields.${index}.values.question`, {
+                required: "Frågan är obligatoriskt",
+              }
+            )}
           />
           <InputField
             label="Informationstext som visas under (valfri)"
@@ -42,8 +49,14 @@ const CheckboxesQuestionBlock = ({
                 <MultiValue key={checkbox}>
                   <InputField
                     labelledBy="checkboxes-label"
+                    required
+                    error={(errors?.fields?.[index]?.values?.checkboxes as
+                      | Record<string, FieldError>
+                      | undefined)?.[checkbox]}
                     {...register(
-                      `fields.${index}.values.checkboxes.${checkbox}`
+                      `fields.${index}.values.checkboxes.${checkbox}`, {
+                        required: "Checkboxen är obligatoriskt",
+                      }
                     )}
                   />
                   <BinIcon

@@ -7,10 +7,12 @@ import { InputField } from "../../InputField";
 import { FormItemBlockProps } from "../types";
 import FormItem from "./FormItem";
 import { MultiValue, MultiValues, MultiValueWrapper } from "./MultiValueLayout";
+import {FieldError} from "react-hook-form";
 
 const RadioButtonsQuestionBlock = ({
   register,
   unregister,
+  errors,
   id,
   index,
   ...rest
@@ -26,7 +28,12 @@ const RadioButtonsQuestionBlock = ({
           <InputField
             label="Titel"
             placeholder="Titel"
-            {...register(`fields.${index}.values.question`)}
+            required
+            error={errors?.fields?.[index]?.values?.question}
+            {...register(`fields.${index}.values.question`, {
+                required: "Titel är obligatoriskt",
+              }
+            )}
           />
           <InputField
             label="Informationstext som visas under (valfri)"
@@ -42,8 +49,14 @@ const RadioButtonsQuestionBlock = ({
                 <MultiValue key={alternative}>
                   <InputField
                     labelledBy="alternatives-label"
+                    required
+                    error={(errors?.fields?.[index]?.values?.alternatives as
+                      | Record<string, FieldError>
+                      | undefined)?.[alternative]}
                     {...register(
-                      `fields.${index}.values.alternatives.${alternative}`
+                      `fields.${index}.values.alternatives.${alternative}`, {
+                        required: "Alternativet är obligatoriskt",
+                      }
                     )}
                   />
                   <BinIcon

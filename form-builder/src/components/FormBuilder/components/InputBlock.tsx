@@ -18,7 +18,7 @@ const InputBlock = ({
         <>
           <InputField
             label="Label"
-            required={true}
+            required
             error={errors?.fields?.[index]?.values?.label}
             {...register(`fields.${index}.values.label`, {
               required: "Label är obligatoriskt",
@@ -27,7 +27,7 @@ const InputBlock = ({
           />
           <InputField
             label="Placeholder"
-            required={true}
+            required
             error={errors?.fields?.[index]?.values?.placeholder}
             {...register(`fields.${index}.values.placeholder`, {
                 required: "Placeholder är obligatoriskt",

@@ -1,0 +1,47 @@
+.checkboxGroup {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.radioGroup {
+  border: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+}
+
+.question {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.informationText {
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
+}
+
+.alternative {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.alternative input {
+  cursor: pointer;
+}
+
+.imageGroup {
+  width: 100%;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 0.5rem;
+}
